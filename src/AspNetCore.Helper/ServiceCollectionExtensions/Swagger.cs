@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -12,17 +13,7 @@ public static partial class ServiceCollectionExtensions
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen(c =>
         {
-            c.SwaggerDoc("v1",
-                new OpenApiInfo()
-                {
-                    Description = "",
-                    Title = "",
-                    Version = "v1",
-                    Contact = new OpenApiContact()
-                    {
-                        Name = "", Url = new Uri("")
-                    }
-                });
+            c.SwaggerDoc("v1", builder.Configuration.GetSection("OpenApiInfo").Get<OpenApiInfo>());
             c.AddSecurityDefinition("oauth2",
                 new OpenApiSecurityScheme
                 {
@@ -33,13 +24,13 @@ public static partial class ServiceCollectionExtensions
                     {
                         Implicit = new OpenApiOAuthFlow
                         {
-                            AuthorizationUrl = new Uri(builder.Configuration["AuthorizationUrl"]),
-                            TokenUrl = new Uri(builder.Configuration["TokenUrl"]),
+                            AuthorizationUrl = new Uri(builder.Configuration["OpenApiOAuthFlow:AuthorizationUrl"]),
+                            TokenUrl = new Uri(builder.Configuration["OpenApiOAuthFlow:TokenUrl"]),
                             RefreshUrl = null,
                             Scopes = new Dictionary<string, string>
                             {
                                 {
-                                    builder.Configuration["ApiScope"], "read the api"
+                                    builder.Configuration["OpenApiOAuthFlow:ApiScope"], "read the api"
                                 }
                             },
                             Extensions = null
@@ -50,7 +41,7 @@ public static partial class ServiceCollectionExtensions
             requirement.Add(new OpenApiSecurityScheme
             {
                 Reference = new OpenApiReference {Type = ReferenceType.SecurityScheme, Id = "oauth2"}
-            }, new[] {builder.Configuration["ApiScope"]});
+            }, new[] {builder.Configuration["OpenApiOAuthFlow:ApiScope"]});
             c.AddSecurityRequirement(requirement);
         });
 
