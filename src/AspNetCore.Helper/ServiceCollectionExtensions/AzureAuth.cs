@@ -2,9 +2,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Identity.Web;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Identity.Web;
 
-namespace AspNetCore.Extensions.ServiceCollectionExtensions {
+namespace AspNetCore.Helper.ServiceCollectionExtensions {
     
     public static partial class ServiceCollectionExtensions
     {

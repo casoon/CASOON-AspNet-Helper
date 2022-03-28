@@ -1,6 +1,6 @@
 using System;
 
-namespace AspNetCore.Extensions.Entity
+namespace AspNetCore.Helper.Entity
 {
     public interface IEntity
     {

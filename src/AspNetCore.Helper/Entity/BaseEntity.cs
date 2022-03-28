@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace AspNetCore.Extensions.Entity
+namespace AspNetCore.Helper.Entity
 {
     [Serializable]
     [JsonObject(NamingStrategyType = typeof(CamelCaseNamingStrategy))]

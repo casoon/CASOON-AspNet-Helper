@@ -1,11 +1,11 @@
 #nullable enable
 using System.Threading.Tasks;
-using AspNetCore.Extensions.Entity;
+using AspNetCore.Helper.Entity;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace AspNetCore.Extensions.Repository
+namespace AspNetCore.Helper.Repository
 {
     public interface IRepository<TEntity>
     {

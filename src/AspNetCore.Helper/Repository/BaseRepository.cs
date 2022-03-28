@@ -3,10 +3,10 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using AspNetCore.Extensions.Entity;
+using AspNetCore.Helper.Entity;
 using Microsoft.EntityFrameworkCore;
 
-namespace AspNetCore.Extensions.Repository
+namespace AspNetCore.Helper.Repository
 {
     public class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
     {

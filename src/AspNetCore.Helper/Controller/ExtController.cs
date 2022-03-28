@@ -2,29 +2,29 @@ using System.Linq;
 using AspNetCore.Helper.Entity;
 using AspNetCore.Helper.Repository;
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Threading.Tasks;
+using DevExtreme.AspNet.Data;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AspNetCore.Extensions.Controller {
+namespace AspNetCore.Helper.Controller {
     
     [Route("api/[controller]")]
     [ApiController]
-    public abstract class BaseController<TEntity, TRepository> : ControllerBase
+    public abstract class ExtController<TEntity, TRepository> : ControllerBase
         where TEntity : class, IEntity
         where TRepository : IRepository<TEntity>
     {
         private readonly TRepository _repository;
 
-        protected BaseController(TRepository repository)
+        protected ExtController(TRepository repository)
         {
             _repository = repository;
         }
         
         [HttpGet]
-        public ActionResult<IQueryable<TEntity>> Get()
-        {
-            return Ok(_repository.GetAll());
-        }
+        public async Task<string> Get([FromQuery]DataSourceLoadOptions loadOptions) => JsonSerializer.Serialize(await DataSourceLoader.LoadAsync(this._repository.GetAll(), loadOptions));
+        
         
         [HttpGet("{id}")]
         public async Task<ActionResult<TEntity>> Get(string id)
