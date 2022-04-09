@@ -18,53 +18,51 @@ namespace AspNetCore.Helper.Controller {
         where TEntity : class, IEntity
         where TRepository : IRepository<TEntity>
     {
-        private readonly TRepository _repository;
-        private readonly JsonSerializerOptions _serializerOptions;
+        public readonly TRepository Repository;
 
         protected ExtController(TRepository repository)
         {
-            _serializerOptions = new JsonSerializerOptions(JsonSerializerDefaults.General);
-            _repository = repository;
+            Repository = repository;
         }
         
         [HttpGet]
-        public async Task<IResult> Get([FromQuery]DataSourceLoadOptions loadOptions) => Results.Json(await DataSourceLoader.LoadAsync(this._repository.GetAll(), loadOptions), _serializerOptions);
+        public async Task<IActionResult> Get([FromQuery]DataSourceLoadOptions loadOptions) => Ok(await DataSourceLoader.LoadAsync(this.Repository.GetAll(), loadOptions));
         
         
         [HttpGet("{id}")]
-        public async Task<IResult> Get(string id)
+        public async Task<IActionResult> Get(string id)
         {
-            var entity = await _repository.GetById(id);
+            var entity = await Repository.GetById(id);
             if (entity == null)
             {
-                return Results.NotFound();
+                return NotFound();
             }
-            return Results.Ok(entity);
+            return Ok(entity);
         }
         
         [HttpPut("{id}")]
-        public async Task<IResult> Put(string id, TEntity entity)
+        public async Task<IActionResult> Put(string id, TEntity entity)
         {
             if (id != entity.Id)
             {
-                return Results.BadRequest();
+                return BadRequest();
             }
-            await _repository.Update(entity);
-            return Results.NoContent();
+            await Repository.Update(entity);
+            return NoContent();
         }
         
         [HttpPost]
-        public async Task<IResult> Post(TEntity entity)
+        public async Task<IActionResult> Post(TEntity entity)
         {
-            await _repository.Add(entity);
-            return Results.NoContent();
+            await Repository.Add(entity);
+            return NoContent();
         }
         
         [HttpDelete("{id}")]
-        public async Task<IResult> Delete(string id)
+        public async Task<IActionResult> Delete(string id)
         {
-            await _repository.Delete(id);
-            return Results.NoContent();
+            await Repository.Delete(id);
+            return NoContent();
         }
 
     }

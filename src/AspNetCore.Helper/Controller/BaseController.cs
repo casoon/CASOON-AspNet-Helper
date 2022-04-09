@@ -13,23 +13,23 @@ namespace AspNetCore.Extensions.Controller {
         where TEntity : class, IEntity
         where TRepository : IRepository<TEntity>
     {
-        private readonly TRepository _repository;
+        public readonly TRepository Repository;
 
         protected BaseController(TRepository repository)
         {
-            _repository = repository;
+            Repository = repository;
         }
         
         [HttpGet]
         public ActionResult<IQueryable<TEntity>> Get()
         {
-            return Ok(_repository.GetAll());
+            return Ok(Repository.GetAll());
         }
         
         [HttpGet("{id}")]
         public async Task<ActionResult<TEntity>> Get(string id)
         {
-            var entity = await _repository.GetById(id);
+            var entity = await Repository.GetById(id);
             if (entity == null)
             {
                 return NotFound();
@@ -44,21 +44,21 @@ namespace AspNetCore.Extensions.Controller {
             {
                 return BadRequest();
             }
-            await _repository.Update(entity);
+            await Repository.Update(entity);
             return NoContent();
         }
         
         [HttpPost]
         public async Task<ActionResult> Post(TEntity entity)
         {
-            await _repository.Add(entity);
+            await Repository.Add(entity);
             return NoContent();
         }
         
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(string id)
         {
-            await _repository.Delete(id);
+            await Repository.Delete(id);
             return NoContent();
         }
 
