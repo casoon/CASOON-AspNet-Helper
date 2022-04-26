@@ -21,13 +21,13 @@ namespace AspNetCore.Extensions.Controller {
         }
         
         [HttpGet]
-        public ActionResult<IQueryable<TEntity>> Get()
+        public virtual ActionResult<IQueryable<TEntity>> Get()
         {
             return Ok(Repository.GetAll());
         }
         
         [HttpGet("{id}")]
-        public async Task<ActionResult<TEntity>> Get(string id)
+        public virtual async Task<ActionResult<TEntity>> Get(string id)
         {
             var entity = await Repository.GetById(id);
             if (entity == null)
@@ -38,7 +38,7 @@ namespace AspNetCore.Extensions.Controller {
         }
         
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(string id, TEntity entity)
+        public virtual async Task<IActionResult> Put(string id, TEntity entity)
         {
             if (id != entity.Id)
             {
@@ -49,14 +49,14 @@ namespace AspNetCore.Extensions.Controller {
         }
         
         [HttpPost]
-        public async Task<ActionResult> Post(TEntity entity)
+        public virtual async Task<ActionResult> Post(TEntity entity)
         {
             await Repository.Add(entity);
             return NoContent();
         }
         
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(string id)
+        public virtual async Task<ActionResult> Delete(string id)
         {
             await Repository.Delete(id);
             return NoContent();

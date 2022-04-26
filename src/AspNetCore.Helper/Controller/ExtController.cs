@@ -26,11 +26,11 @@ namespace AspNetCore.Helper.Controller {
         }
         
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery]DataSourceLoadOptions loadOptions) => Ok(await DataSourceLoader.LoadAsync(this.Repository.GetAll(), loadOptions));
+        public virtual async Task<IActionResult> Get([FromQuery]DataSourceLoadOptions loadOptions) => Ok(await DataSourceLoader.LoadAsync(this.Repository.GetAll(), loadOptions));
         
         
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id)
+        public virtual async Task<IActionResult> Get(string id)
         {
             var entity = await Repository.GetById(id);
             if (entity == null)
@@ -41,7 +41,7 @@ namespace AspNetCore.Helper.Controller {
         }
         
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(string id, TEntity entity)
+        public virtual async Task<IActionResult> Put(string id, TEntity entity)
         {
             if (id != entity.Id)
             {
@@ -52,14 +52,14 @@ namespace AspNetCore.Helper.Controller {
         }
         
         [HttpPost]
-        public async Task<IActionResult> Post(TEntity entity)
+        public virtual async Task<IActionResult> Post(TEntity entity)
         {
             await Repository.Add(entity);
             return NoContent();
         }
         
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(string id)
+        public virtual async Task<IActionResult> Delete(string id)
         {
             await Repository.Delete(id);
             return NoContent();

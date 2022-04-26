@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <ReleaseVersion>0.3.6</ReleaseVersion>
-        <version>0.3.6</version>
+        <ReleaseVersion>0.3.7</ReleaseVersion>
+        <version>0.3.7</version>
         <RootNamespace>AspNetCore.Helper</RootNamespace>
         <LangVersion>latest</LangVersion>
         <title>AspNetCore.Helper</title>
